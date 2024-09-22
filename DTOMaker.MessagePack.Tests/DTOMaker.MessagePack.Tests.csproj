@@ -27,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\DTOMaker.Generator\DTOMaker.Generator.csproj" />
+	  <ProjectReference Include="..\DTOMaker.MessagePack\DTOMaker.MessagePack.csproj" />
 	</ItemGroup>
 
 </Project>
