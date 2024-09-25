@@ -28,7 +28,7 @@ namespace DTOMaker.Generator.Tests
                 using DTOMaker.Models;
                 namespace MyOrg.Models
                 {
-                    [Entity(64)]
+                    [Entity()]
                     public interface IMyDTO
                     {
                     }
@@ -57,10 +57,10 @@ namespace DTOMaker.Generator.Tests
                 using DTOMaker.Models;
                 namespace MyOrg.Models
                 {
-                    [Entity(64)]
+                    [Entity()]
                     public interface IMyDTO
                     {
-                        [Member(0, 8)] double Field1 { get; set; }
+                        [Member(1)] double Field1 { get; set; }
                     }
                 }
                 """;
@@ -87,11 +87,11 @@ namespace DTOMaker.Generator.Tests
                 using DTOMaker.Models;
                 namespace MyOrg.Models
                 {
-                    [Entity(64)]
+                    [Entity()]
                     public interface IMyDTO
                     {
-                        [Member(0, 8)] double Field1 { get; set; }
-                        [Member(8, 8)] long Field2 { get; set; }
+                        [Member(1)] double Field1 { get; set; }
+                        [Member(2)] long Field2 { get; set; }
                     }
                 }
                 """;
@@ -118,16 +118,16 @@ namespace DTOMaker.Generator.Tests
                 using DTOMaker.Models;
                 namespace MyOrg.Models
                 {
-                    [Entity(64)]
+                    [Entity()]
                     public interface IMyFirstDTO
                     {
-                        [Member(0, 8)] double Field1 { get; set; }
+                        [Member(1)] double Field1 { get; set; }
                     }
 
-                    [Entity(64)]
+                    [Entity()]
                     public interface IMyOtherDTO
                     {
-                        [Member(0, 8)] long Field1 { get; set; }
+                        [Member(1)] long Field1 { get; set; }
                     }
                 }
                 """;
@@ -153,32 +153,7 @@ namespace DTOMaker.Generator.Tests
         }
 
         [Fact]
-        public void Fault01_InvalidBlockSize()
-        {
-            var inputSource =
-                """
-                using DTOMaker.Models;
-                namespace MyOrg.Models
-                {
-                    [Entity(63)]
-                    public interface IMyDTO
-                    {
-                    }
-                }
-                """;
-
-            var generatorResult = GeneratorTestHelper.RunSourceGenerator(inputSource, LanguageVersion.LatestMajor);
-            generatorResult.Exception.Should().BeNull();
-            generatorResult.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Info).Should().BeEmpty();
-            generatorResult.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Warning).Should().BeEmpty();
-
-            var errors = generatorResult.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
-            errors.Length.Should().Be(1);
-            errors[0].GetMessage().Should().StartWith("BlockSize (63) is invalid.");
-        }
-
-        [Fact]
-        public void Fault02_OrphanMember()
+        public void Fault01_OrphanMember()
         {
             // note: [Entity] attribute is missing
             var inputSource =
@@ -188,7 +163,7 @@ namespace DTOMaker.Generator.Tests
                 {
                     public interface IMyDTO
                     {
-                        [Member(0, 8)] double Field1 { get; set; }
+                        [Member(1)] double Field1 { get; set; }
                     }
                 }
                 """;

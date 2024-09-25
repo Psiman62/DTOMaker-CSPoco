@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using DTOMaker.Gentime;
+using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,15 +91,11 @@ namespace DTOMaker.Generator
                             #pragma warning disable CS0414
                             #nullable enable
                             using System;
+                            using MessagePack;
                             namespace {{domain.Name}}
                             {
                                 public partial class {{entity.Name}}
                                 {
-                                    private const int BlockSize = {{entity.BlockSize}};
-                                    private readonly Memory<byte> _block;
-                                    public ReadOnlyMemory<byte> Block => _block;
-                                    public {{entity.Name}}() => _block = new byte[BlockSize];
-                                    public {{entity.Name}}(ReadOnlySpan<byte> source) => _block = source.Slice(0, BlockSize).ToArray();
                             """;
                         string entityTail =
                             """
@@ -110,15 +107,15 @@ namespace DTOMaker.Generator
                         string memberMapHead =
                             """
                                     // <field-map>
-                                    //  Pos.  Len.  Type        Endian  Name
-                                    //  ----  ----  --------    ------  --------
+                                    //  Key   Type        Name
+                                    //  ----  --------    --------
                             """;
                         builder.AppendLine(memberMapHead);
-                        foreach (var member in entity.Members.Values.OrderBy(m => m.FieldOffset))
+                        foreach (var member in entity.Members.Values.OrderBy(m => m.Sequence))
                         {
                             string memberMapBody =
                                 $$"""
-                                        //  {{member.FieldOffset,4:N0}}  {{member.FieldLength,4:N0}}  {{member.MemberType,-8}}    {{(member.IsBigEndian ? "Big   " : "Little")}}  {{member.Name}}
+                                        //  {{member.Sequence,4:N0}}  {{member.MemberType,-8}}    {{member.Name}}
                                 """;
                             builder.AppendLine(memberMapBody);
                         }
@@ -128,18 +125,14 @@ namespace DTOMaker.Generator
                             """;
                         builder.AppendLine(memberMapTail);
                         // end member map
-                        foreach (var member in entity.Members.Values.OrderBy(m => m.FieldOffset))
+                        foreach (var member in entity.Members.Values.OrderBy(m => m.Sequence))
                         {
                             EmitDiagnostics(context, member);
                             if (member.CanEmit())
                             {
                                 string memberSource =
                                     $$"""
-                                            public {{member.MemberType}} {{member.Name}}
-                                            {
-                                                get => {{member.CodecTypeName}}.Instance.ReadFrom(_block.Slice({{member.FieldOffset}}, {{member.FieldLength}}).Span);
-                                                set => {{member.CodecTypeName}}.Instance.WriteTo(_block.Slice({{member.FieldOffset}}, {{member.FieldLength}}).Span, value);
-                                            }
+                                            [Key({{member.Sequence}})] public {{member.MemberType}} {{member.Name}} {get; set; }
                                     """;
                                 builder.AppendLine(memberSource);
                             }

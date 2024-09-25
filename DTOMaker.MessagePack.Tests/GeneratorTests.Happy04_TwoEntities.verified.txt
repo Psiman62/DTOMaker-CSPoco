@@ -5,24 +5,16 @@
 #pragma warning disable CS0414
 #nullable enable
 using System;
+using MessagePack;
 namespace MyOrg.Models
 {
     public partial class MyOtherDTO
     {
-        private const int BlockSize = 64;
-        private readonly Memory<byte> _block;
-        public ReadOnlyMemory<byte> Block => _block;
-        public MyOtherDTO() => _block = new byte[BlockSize];
-        public MyOtherDTO(ReadOnlySpan<byte> source) => _block = source.Slice(0, BlockSize).ToArray();
         // <field-map>
-        //  Pos.  Len.  Type        Endian  Name
-        //  ----  ----  --------    ------  --------
-        //     0     8  Int64       Little  Field1
+        //  Key   Type        Name
+        //  ----  --------    --------
+        //     1  Int64       Field1
         // </field-map>
-        public Int64 Field1
-        {
-            get => DTOMaker.Runtime.Codec_Int64_LE.Instance.ReadFrom(_block.Slice(0, 8).Span);
-            set => DTOMaker.Runtime.Codec_Int64_LE.Instance.WriteTo(_block.Slice(0, 8).Span, value);
-        }
+        [Key(1)] public Int64 Field1 {get; set; }
     }
 }
