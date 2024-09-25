@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace DTOMaker.Generator
+namespace DTOMaker.MessagePack
 {
     [Generator(LanguageNames.CSharp)]
     public class SourceGenerator : ISourceGenerator
@@ -68,7 +68,7 @@ namespace DTOMaker.Generator
             if (context.SyntaxContextReceiver is not SyntaxReceiver syntaxReceiver) return;
 
             // check that the users compilation references the expected libraries
-            CheckReferencedAssemblyNamesInclude(context, typeof(DTOMaker.Models.DomainAttribute).Assembly);
+            CheckReferencedAssemblyNamesInclude(context, typeof(Models.DomainAttribute).Assembly);
 
             foreach (var domain in syntaxReceiver.Domains.Values)
             {
@@ -80,7 +80,7 @@ namespace DTOMaker.Generator
                     {
                         Version fv = new Version(ThisAssembly.AssemblyFileVersion);
                         string shortVersion = $"{fv.Major}.{fv.Minor}";
-                        string hintName = $"{domain.Name}.{entity.Name}.g.cs";
+                        string hintName = $"{domain.Name}.{entity.Name}.MessagePack.g.cs";
                         var builder = new StringBuilder();
                         string entityHead =
                             $$"""
@@ -92,7 +92,7 @@ namespace DTOMaker.Generator
                             #nullable enable
                             using System;
                             using MessagePack;
-                            namespace {{domain.Name}}
+                            namespace {{domain.Name}}.MessagePack
                             {
                                 public partial class {{entity.Name}}
                                 {

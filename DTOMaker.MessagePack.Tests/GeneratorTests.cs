@@ -1,3 +1,4 @@
+using DTOMaker.MessagePack.Tests;
 using DTOMaker.Models;
 using FluentAssertions;
 using Microsoft.CodeAnalysis;
@@ -44,7 +45,7 @@ namespace DTOMaker.Generator.Tests
             GeneratedSourceResult outputSource = generatorResult.GeneratedSources[0];
 
             // custom generation checks
-            outputSource.HintName.Should().Be("MyOrg.Models.MyDTO.g.cs");
+            outputSource.HintName.Should().Be("MyOrg.Models.MyDTO.MessagePack.g.cs");
             string outputCode = string.Join(Environment.NewLine, outputSource.SourceText.Lines.Select(tl => tl.ToString()));
             await Verifier.Verify(outputCode);
         }
@@ -74,7 +75,7 @@ namespace DTOMaker.Generator.Tests
             GeneratedSourceResult outputSource = generatorResult.GeneratedSources[0];
 
             // custom generation checks
-            outputSource.HintName.Should().Be("MyOrg.Models.MyDTO.g.cs");
+            outputSource.HintName.Should().Be("MyOrg.Models.MyDTO.MessagePack.g.cs");
             string outputCode = string.Join(Environment.NewLine, outputSource.SourceText.Lines.Select(tl => tl.ToString()));
             await Verifier.Verify(outputCode);
         }
@@ -105,7 +106,7 @@ namespace DTOMaker.Generator.Tests
             GeneratedSourceResult outputSource = generatorResult.GeneratedSources[0];
 
             // custom generation checks
-            outputSource.HintName.Should().Be("MyOrg.Models.MyDTO.g.cs");
+            outputSource.HintName.Should().Be("MyOrg.Models.MyDTO.MessagePack.g.cs");
             string outputCode = string.Join(Environment.NewLine, outputSource.SourceText.Lines.Select(tl => tl.ToString()));
             await Verifier.Verify(outputCode);
         }
@@ -142,11 +143,11 @@ namespace DTOMaker.Generator.Tests
             generatorResult.GeneratedSources.Length.Should().Be(2);
             {
                 GeneratedSourceResult outputSource = generatorResult.GeneratedSources[0];
-                outputSource.HintName.Should().Be("MyOrg.Models.MyFirstDTO.g.cs");
+                outputSource.HintName.Should().Be("MyOrg.Models.MyFirstDTO.MessagePack.g.cs");
             }
             {
                 GeneratedSourceResult outputSource = generatorResult.GeneratedSources[1];
-                outputSource.HintName.Should().Be("MyOrg.Models.MyOtherDTO.g.cs");
+                outputSource.HintName.Should().Be("MyOrg.Models.MyOtherDTO.MessagePack.g.cs");
                 string outputCode = string.Join(Environment.NewLine, outputSource.SourceText.Lines.Select(tl => tl.ToString()));
                 await Verifier.Verify(outputCode);
             }
