@@ -94,6 +94,7 @@ namespace DTOMaker.MessagePack
                             using MessagePack;
                             namespace {{domain.Name}}.MessagePack
                             {
+                                [MessagePackObject]
                                 public partial class {{entity.Name}}
                                 {
                             """;
