@@ -1,16 +1,12 @@
 ﻿using DTOMaker.Gentime;
 using Microsoft.CodeAnalysis;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 
 namespace DTOMaker.MessagePack
 {
     internal sealed class MessagePackDomain : TargetDomain
     {
         public MessagePackDomain(string name, Location location) : base(name, location) { }
-
-        // todo remove this
-        protected override IEnumerable<SyntaxDiagnostic> OnGetValidationDiagnostics() { yield break; }
     }
     internal sealed class MessagePackEntity : TargetEntity
     {
