@@ -4,18 +4,6 @@ using System.Collections.Concurrent;
 
 namespace DTOMaker.MessagePack
 {
-    internal sealed class MessagePackDomain : TargetDomain
-    {
-        public MessagePackDomain(string name, Location location) : base(name, location) { }
-    }
-    internal sealed class MessagePackEntity : TargetEntity
-    {
-        public MessagePackEntity(string name, Location location) : base(name, location) { }
-    }
-    internal sealed class MessagePackMember : TargetMember
-    {
-        public MessagePackMember(string name, Location location) : base(name, location) { }
-    }
     internal class SyntaxReceiver : ISyntaxContextReceiver
     {
         public ConcurrentDictionary<string, TargetDomain> Domains { get; } = new ConcurrentDictionary<string, TargetDomain>();
