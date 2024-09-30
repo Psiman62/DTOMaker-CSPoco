@@ -1,8 +1,12 @@
 # DTOMaker.MessagePack
 
+todo badges go here
+
 *Warning: This is pre-release software under active development. Not for production use. Do not use if you can't tolerate breaking changes occasionally.*
 
 Source generator for MessagePack data transport objects (DTOs).
+
+Generates DTOs decorated with MessagePack attributes (https://github.com/MessagePack-CSharp/MessagePack-CSharp).
 
 ## Quick Start
 To use this generator:
