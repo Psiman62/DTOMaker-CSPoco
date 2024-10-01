@@ -17,7 +17,7 @@ namespace Template_MessagePack.Tests
             orig.T_MemberName_ = value;
             ReadOnlyMemory<byte> buffer = MessagePackSerializer.Serialize<T_EntityName_>(orig);
 
-            string.Join('-', buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
 
             var copy = MessagePackSerializer.Deserialize<T_EntityName_>(buffer, out int bytesRead);
 

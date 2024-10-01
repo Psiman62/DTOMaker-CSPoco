@@ -7,8 +7,13 @@ namespace T_Namespace_.MessagePack
     using T_MemberType_ = System.Int64;
     //##endif
 
+    public interface IT_EntityName_
+    {
+        T_MemberType_ T_MemberName_ { get; set; }
+    }
+
     [MessagePackObject]
-    public partial class T_EntityName_
+    public partial class T_EntityName_ : IT_EntityName_
     {
         //##if false
         private const int T_MemberSequence_ = 1;

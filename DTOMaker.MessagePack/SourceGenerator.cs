@@ -19,31 +19,21 @@ namespace DTOMaker.MessagePack
         private void EmitDiagnostics(GeneratorExecutionContext context, TargetBase target)
         {
             // todo fix msg ids
-            foreach (var message in target.SyntaxErrors)
+            foreach (var diagnostic in target.SyntaxErrors)
             {
                 // report diagnostic
                 context.ReportDiagnostic(
                     Diagnostic.Create(
-                        new DiagnosticDescriptor(
-                            "MFNSSG001", "DiagnosticTitle",
-                            message.Message,
-                            "DiagnosticCategory",
-                            message.Severity,
-                            true),
-                    message.Location));
+                        new DiagnosticDescriptor(diagnostic.Id, diagnostic.Title, diagnostic.Message,
+                            diagnostic.Category, diagnostic.Severity, true), diagnostic.Location));
             }
-            foreach (var message in target.ValidationErrors())
+            foreach (var diagnostic in target.ValidationErrors())
             {
                 // report diagnostic
                 context.ReportDiagnostic(
                     Diagnostic.Create(
-                        new DiagnosticDescriptor(
-                            "MFNSSG001", "DiagnosticTitle",
-                            message.Message,
-                            "DiagnosticCategory",
-                            message.Severity,
-                            true),
-                    message.Location));
+                        new DiagnosticDescriptor(diagnostic.Id, diagnostic.Title, diagnostic.Message,
+                            diagnostic.Category, diagnostic.Severity, true), diagnostic.Location));
             }
         }
         private void CheckReferencedAssemblyNamesInclude(GeneratorExecutionContext context, Assembly assembly)
@@ -53,6 +43,7 @@ namespace DTOMaker.MessagePack
             if (!context.Compilation.ReferencedAssemblyNames.Any(ai => ai.Name.Equals(packageName, StringComparison.OrdinalIgnoreCase)))
             {
                 // todo major version error/minor version warning
+                // todo fix diag id, title and categ
                 context.ReportDiagnostic(Diagnostic.Create(
                         new DiagnosticDescriptor(
                             "MFNSSG001", "DiagnosticTitle",
