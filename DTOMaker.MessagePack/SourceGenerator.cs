@@ -70,6 +70,8 @@ namespace DTOMaker.MessagePack
                     Version fv = new Version(ThisAssembly.AssemblyFileVersion);
                     string shortVersion = $"{fv.Major}.{fv.Minor}";
                     string hintName = $"{domain.Name}.{entity.Name}.MessagePack.g.cs";
+                    // entity options
+                    string? implementedInterface = entity.ImplementModelInterface ? $" : I{entity.Name}" : null;
                     var builder = new StringBuilder();
                     string entityHead =
                         $$"""
@@ -84,7 +86,7 @@ namespace DTOMaker.MessagePack
                         namespace {{domain.Name}}.MessagePack
                         {
                             [MessagePackObject]
-                            public partial class {{entity.Name}}
+                            public partial class {{entity.Name}}{{implementedInterface}}
                             {
                         """;
                     string entityTail =
