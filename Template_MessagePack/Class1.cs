@@ -5,14 +5,20 @@
 // </auto-generated>
 #pragma warning disable CS0414
 #nullable enable
+using DTOMaker.Models;
 using DTOMaker.Runtime;
 using MessagePack;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-namespace MyOrg.Models.MessagePack
+namespace Template_MessagePack
 {
+    public interface IMyDTO
+    {
+        double Field1 { get; set; }
+    }
+
     [MessagePackObject]
     public partial class MyDTO : IMyDTO, IFreezable
     {
@@ -49,14 +55,15 @@ namespace MyOrg.Models.MessagePack
             // todo freezable members
             _Field1 = source.Field1;
         }
-
         // <field-map>
         //  Key   Type        Name
         //  ----  --------    --------
         //     1  Double      Field1
         // </field-map>
-        [IgnoreMember] private Double _Field1;
-        [Key(1)] public Double Field1
+        [IgnoreMember]
+        private Double _Field1;
+        [Key(1)]
+        public Double Field1
         {
             get => _Field1;
             set => _Field1 = IfNotFrozen(ref value);

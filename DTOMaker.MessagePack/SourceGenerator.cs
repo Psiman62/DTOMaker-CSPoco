@@ -81,20 +81,66 @@ namespace DTOMaker.MessagePack
                         // </auto-generated>
                         #pragma warning disable CS0414
                         #nullable enable
-                        using System;
+                        using DTOMaker.Runtime;
                         using MessagePack;
+                        using System;
+                        using System.Runtime.CompilerServices;
+                        using System.Threading;
+                        using System.Threading.Tasks;
                         namespace {{domain.Name}}.MessagePack
                         {
                             [MessagePackObject]
-                            public partial class {{entity.Name}} : I{{entity.Name}}
+                            public partial class {{entity.Name}} : I{{entity.Name}}, IFreezable
                             {
-                        """;
-                    string entityTail =
-                        """
-                            }
-                        }
+                                // todo move to base
+                                [IgnoreMember]
+                                private volatile bool _frozen;
+                                public bool IsFrozen() => _frozen;
+                                public IFreezable PartCopy() => new {{entity.Name}}(this);
+
+                                [MethodImpl(MethodImplOptions.NoInlining)]
+                                private void ThrowIsFrozenException(string? methodName) => throw new InvalidOperationException($"Cannot call {methodName} when frozen.");
+
+                                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                                private ref T IfNotFrozen<T>(ref T value, [CallerMemberName] string? methodName = null)
+                                {
+                                    if (_frozen) ThrowIsFrozenException(methodName);
+                                    return ref value;
+                                }
+
+                                public ValueTask FreezeAsync(IBlobStore store, CancellationToken cancellation)
+                                {
+                                    if (_frozen) return default;
+                                    _frozen = true;
+                                    // todo freeze base
+                                    // todo freeze model type refs
+                                    return default;
+                                }
+
+                                public {{entity.Name}}() { }
+                                public {{entity.Name}}(I{{entity.Name}} source, bool frozen = false)
+                                {
+                                    _frozen = frozen;
+                                    // todo base ctor
+                                    // todo freezable members
                         """;
                     builder.AppendLine(entityHead);
+                    foreach (var member in entity.Members.Values.OrderBy(m => m.Sequence))
+                    {
+                        string memberPart1 =
+                            // 12sp
+                            $$"""
+                                        _{{member.Name}} = source.{{member.Name}};
+                            """;
+                        builder.AppendLine(memberPart1);
+                    }
+                    string entityPart1 =
+                        // 8sp
+                        """
+                                }
+
+                        """;
+                    builder.AppendLine(entityPart1);
                     // begin member map
                     string memberMapHead =
                         """
@@ -117,15 +163,28 @@ namespace DTOMaker.MessagePack
                         """;
                     builder.AppendLine(memberMapTail);
                     // end member map
+                    // begin member def
                     foreach (var member in entity.Members.Values.OrderBy(m => m.Sequence))
                     {
                         EmitDiagnostics(context, member);
-                        string memberSource =
+                        string memberDefBody =
                             $$"""
-                                    [Key({{member.Sequence}})] public {{member.MemberType}} {{member.Name}} {get; set; }
+                                    [IgnoreMember] private {{member.MemberType}} _{{member.Name}};
+                                    [Key({{member.Sequence}})] public {{member.MemberType}} {{member.Name}}
+                                    {
+                                        get => _{{member.Name}};
+                                        set => _{{member.Name}} = IfNotFrozen(ref value);
+                                    }
+
                             """;
-                        builder.AppendLine(memberSource);
+                        builder.AppendLine(memberDefBody);
                     }
+                    // end member def
+                    string entityTail =
+                        """
+                            }
+                        }
+                        """;
                     builder.AppendLine(entityTail);
                     context.AddSource(hintName, builder.ToString());
                 }
