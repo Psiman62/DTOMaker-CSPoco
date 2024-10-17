@@ -24,7 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Template_MessagePack\Template_MessagePack.csproj" />
+	  <ProjectReference Include="..\Template.MessagePack\Template.MessagePack.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
