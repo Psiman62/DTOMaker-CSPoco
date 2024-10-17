@@ -5,28 +5,31 @@
 // </auto-generated>
 #pragma warning disable CS0414
 #nullable enable
-using DTOMaker.Models;
 using DTOMaker.Runtime;
 using MessagePack;
 using System;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
-namespace Template_MessagePack
-{
-    public interface IMyDTO
-    {
-        double Field1 { get; set; }
-    }
 
-    [MessagePackObject]
-    public partial class MyDTO : IMyDTO, IFreezable
+namespace T_DomainName_.MessagePack
+{
+    //##if false
+    using T_MemberType_ = System.Int64;
+    public interface IT_EntityName_
     {
+        T_MemberType_ T_MemberName_ { get; set; }
+    }
+    //##endif
+    [MessagePackObject]
+    public partial class T_EntityName_ : IT_EntityName_, IFreezable
+    {
+        //##if false
+        private const int T_MemberSequence_ = 1;
+        //##endif
         // todo move to base
         [IgnoreMember]
         private volatile bool _frozen;
         public bool IsFrozen() => _frozen;
-        public IFreezable PartCopy() => new MyDTO(this);
+        public IFreezable PartCopy() => new T_EntityName_(this);
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void ThrowIsFrozenException(string? methodName) => throw new InvalidOperationException($"Cannot call {methodName} when frozen.");
@@ -46,27 +49,28 @@ namespace Template_MessagePack
             // todo freeze model type refs
         }
 
-        public MyDTO() { }
-        public MyDTO(IMyDTO source, bool frozen = false)
+        public T_EntityName_() { }
+        public T_EntityName_(IT_EntityName_ source, bool frozen = false)
         {
             _frozen = frozen;
             // todo base ctor
+            //##foreach Members
             // todo freezable members
-            _Field1 = source.Field1;
+            _T_MemberName_ = source.T_MemberName_;
+            //##endfor
         }
-        // <field-map>
-        //  Key   Type        Name
-        //  ----  --------    --------
-        //     1  Double      Field1
-        // </field-map>
+
+        //##foreach Members
         [IgnoreMember]
-        private Double _Field1;
-        [Key(1)]
-        public Double Field1
+        private T_MemberType_ _T_MemberName_;
+        [Key(T_MemberSequence_)]
+        public T_MemberType_ T_MemberName_
         {
-            get => _Field1;
-            set => _Field1 = IfNotFrozen(ref value);
+            get => _T_MemberName_;
+            set => _T_MemberName_ = IfNotFrozen(ref value);
         }
+
+        //##endfor
 
     }
 }

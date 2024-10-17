@@ -3,7 +3,7 @@ using MessagePack;
 using System;
 using System.Linq;
 
-using T_Namespace_.MessagePack;
+using T_DomainName_.MessagePack;
 
 namespace Template_MessagePack.Tests
 {
