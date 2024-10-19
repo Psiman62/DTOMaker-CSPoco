@@ -24,6 +24,8 @@ namespace T_DomainName_.MessagePack
     {
         //##if false
         private const int T_MemberSequence_ = 1;
+        private const string T_MemberObsoleteMessage_ = null;
+        private const bool T_MemberObsoleteIsError_ = false;
         //##endif
         // todo move to base
         [IgnoreMember]
@@ -63,6 +65,9 @@ namespace T_DomainName_.MessagePack
         //##foreach Members
         [IgnoreMember]
         private T_MemberType_ _T_MemberName_;
+        //##if MemberIsObsolete
+        [Obsolete("T_MemberObsoleteMessage_", T_MemberObsoleteIsError_)]
+        //##endif
         [Key(T_MemberSequence_)]
         public T_MemberType_ T_MemberName_
         {
