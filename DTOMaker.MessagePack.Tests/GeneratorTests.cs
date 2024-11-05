@@ -48,7 +48,7 @@ namespace DTOMaker.MessagePack.Tests
                 using DTOMaker.Models;
                 namespace MyOrg.Models
                 {
-                    [Entity()]
+                    [Entity]
                     public interface IMyDTO
                     {
                         [Member(1)] double Field1 { get; set; }
@@ -78,7 +78,7 @@ namespace DTOMaker.MessagePack.Tests
                 using DTOMaker.Models;
                 namespace MyOrg.Models
                 {
-                    [Entity()]
+                    [Entity]
                     public interface IMyDTO
                     {
                         [Member(1)] double Field1 { get; set; }
@@ -109,13 +109,13 @@ namespace DTOMaker.MessagePack.Tests
                 using DTOMaker.Models;
                 namespace MyOrg.Models
                 {
-                    [Entity()]
+                    [Entity]
                     public interface IMyFirstDTO
                     {
                         [Member(1)] double Field1 { get; set; }
                     }
 
-                    [Entity()]
+                    [Entity]
                     public interface IMyOtherDTO
                     {
                         [Member(1)] long Field1 { get; set; }
@@ -144,23 +144,17 @@ namespace DTOMaker.MessagePack.Tests
         }
 
         [Fact]
-        public async Task Happy05_Enum32Member()
+        public async Task Happy05_ArrayMember()
         {
             var inputSource =
                 """
                 using DTOMaker.Models;
                 namespace MyOrg.Models
                 {
-                    public enum Kind32 : int
-                    {
-                        Default,
-                        Kind1 = 1,
-                        MaxKind = int.MaxValue,
-                    }
                     [Entity]
                     public interface IMyDTO
                     {
-                        [Member(1)] Kind32 Field1 { get; set; }
+                        [Member(1)] ReadOnlyMemory<double> Field1 { get; set; }
                     }
                 }
                 """;
