@@ -1,6 +1,6 @@
 # DTOMaker.CSPoco
 
-todo badges go here
+[![Build-Deploy](https://github.com/Psiman62/DTOMaker-CSPoco/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Psiman62/DTOMaker-CSPoco/actions/workflows/dotnet.yml)
 
 *Warning: This is pre-release software under active development. Not for production use. Do not use if you can't tolerate breaking changes occasionally.*
 
