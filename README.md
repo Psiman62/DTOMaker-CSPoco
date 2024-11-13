@@ -8,7 +8,8 @@ Source generator for C# POCOs (Plain Old C# Objects).
 
 Features:
 - implements data model interface;
-- IFreezable support.
+- IFreezable support;
+- IEquatable\<T\> support.
 
 ## Quick Start
 To use this generator:
