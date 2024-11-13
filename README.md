@@ -7,6 +7,7 @@
 Source generator for C# POCOs (Plain Old C# Objects).
 
 Features:
+- implements data model interface;
 - IFreezable support.
 
 ## Quick Start
