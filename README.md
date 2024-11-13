@@ -6,6 +6,9 @@
 
 Source generator for C# POCOs (Plain Old C# Objects).
 
+Features:
+- IFreezable support.
+
 ## Quick Start
 To use this generator:
 1. create a new C# library project to contain your POCOs;
