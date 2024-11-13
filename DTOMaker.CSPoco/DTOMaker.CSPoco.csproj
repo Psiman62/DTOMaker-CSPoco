@@ -19,6 +19,8 @@
 		<EnableNETAnalyzers>True</EnableNETAnalyzers>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\SigningKey.snk</AssemblyOriginatorKeyFile>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>generator; roslyn</PackageTags>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -35,7 +37,7 @@
 		<!-- Package the generator in the analyzer directory of the nuget package -->
 		<None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 		<!-- Private dependencies of this generator that consumers of this generator will not reference. -->
-		<PackageReference Include="DTOMaker.Core" Version="0.29.11" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="DTOMaker.Core" Version="0.29.12" PrivateAssets="all" GeneratePathProperty="true" />
 	</ItemGroup>
 
 	<ItemGroup>
