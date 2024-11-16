@@ -19,8 +19,6 @@
 		<EnableNETAnalyzers>True</EnableNETAnalyzers>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\SigningKey.snk</AssemblyOriginatorKeyFile>
-		<IncludeSymbols>True</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>generator; roslyn</PackageTags>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
